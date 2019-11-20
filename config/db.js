@@ -3,9 +3,9 @@
 const mongoose = require("mongoose");
 
 // edited to include my non-admin, user level account and PW on mongo atlas
-// and also to include the name of the mongo DB that the collection is in (TaskDB)
+// and also to include the name of the mongo DB that the collection is in
 const dbURI =
-  "mongodb+srv://bcuser2:bcuser2@cluster0-nbt1n.mongodb.net/TaskDB?retryWrites=true&w=majority";
+  "mongodb+srv://bcuserghostapp:bcuserghostapp@isit422-cm0fr.mongodb.net/ghost-gas-app?retryWrites=true&w=majority";
 
 // Make Mongoose use `findOneAndUpdate()`. Note that this option is `true`
 // by default, you need to set it to false.
@@ -25,5 +25,8 @@ mongoose.connect(dbURI, options).then(
   }
 );
 
-// bring in our mongoose schema defintion defintion for a Task
-require("../models/Task");
+// bring in our mongoose schema definitions
+require("../models/FuelUp");
+require("../models/Vehicle");
+require("../models/Organization");
+require("../models/User");
