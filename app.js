@@ -118,14 +118,14 @@ app.get('/', (req, res) => {
 // }
 
 app.get('/auth/google', passport.authenticate('google', {
-  scope: ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile']
+  scope: ['email', 'profile']
 }));
 
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
     req.session.token = req.user.token;
-    res.redirect('/user/post/');
+    res.redirect('/');
   }
 );
 
