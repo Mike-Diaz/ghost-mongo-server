@@ -17,7 +17,7 @@ var corsOptions = {
 require("./config/db");
 app = express();
 
-const port = 80;  // setting the port number for this server (changed from port 3000 to port 80)
+const port = (process.env.PORT || 80);  // setting the port number for this server (changed from port 3000 to port 80)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
