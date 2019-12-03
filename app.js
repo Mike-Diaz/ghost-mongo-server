@@ -17,7 +17,7 @@ var corsOptions = {
 require("./config/db");
 app = express();
 
-const port = (process.env.PORT || 30025);  // setting the port number for this server (changed from port 3000 to port 80)
+const port = (process.env.PORT || 30025);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -73,36 +73,38 @@ app
   .put(userController.update)
   .delete(userController.delete);
 
-//ouath implementation COMMENTED OUT FOR TESTING
+//ouath implementation
 
 // ***********************************************************************************************************
-// passport = require('passport'),
-//   auth = require('./config/auth'),
-//   cookieParser = require('cookie-parser'),
-//   cookieSession = require('cookie-session');
+
+passport = require('passport'),
+  auth = require('./config/auth'),
+  cookieParser = require('cookie-parser'),
+  cookieSession = require('cookie-session');
 
 
-// app.use(cookieSession({
-//   name: 'session',
-//   keys: ['123']
-// }));
-// app.use(cookieParser());
+app.use(cookieSession({
+  name: 'session',
+  keys: ['123']
+}));
+app.use(cookieParser());
 
-// auth(passport);
-// app.use(passport.initialize());
-// app.get('/', (req, res) => {
-//   if (req.session.token) {
-//     res.cookie('token', req.session.token);
-//     res.json({
-//       status: 'session cookie set'
-//     });
-//   } else {
-//     res.cookie('token', '')
-//     res.json({
-//       status: 'session cookie not set'
-//     });
-//   }
-// });
+auth(passport);
+app.use(passport.initialize());
+app.get('/', (req, res) => {
+  if (req.session.token) {
+    res.cookie('token', req.session.token);
+    res.json({
+      status: 'session cookie set'
+    });
+  } else {
+    res.cookie('token', '')
+    res.json({
+      status: 'session cookie not set'
+    });
+  }
+});
+
 // ***********************************************************************************************************
 
 // alternate jwt method
@@ -119,23 +121,25 @@ app
 //   }
 // }
 // ***********************************************************************************************************
-// app.get('/auth/google', passport.authenticate('google', {
-//   scope: ['email', 'profile']
-// }));
 
-// app.get('/auth/google/callback',
-//   passport.authenticate('google', { failureRedirect: '/' }),
-//   (req, res) => {
-//     req.session.token = req.user.token;
-//     res.redirect('/');
-//   }
-// );
+app.get('/auth/google', passport.authenticate('google', {
+  scope: ['email', 'profile']
+}));
 
-// app.get('/logout', (req, res) => {
-//   req.logout();
-//   req.session = null;
-//   res.redirect('/');
-// });
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  (req, res) => {
+    req.session.token = req.user.token;
+    res.redirect('/');
+  }
+);
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  req.session = null;
+  res.redirect('/');
+});
+
 // ***********************************************************************************************************
 
 //strategy for authentication won't work without routing
@@ -154,6 +158,7 @@ app
 //server listen
 
 // ***********************************************************************************************************
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
