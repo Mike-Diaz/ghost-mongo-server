@@ -73,35 +73,37 @@ app
   .put(userController.update)
   .delete(userController.delete);
 
-//ouath implementation
+//ouath implementation COMMENTED OUT FOR TESTING
 
-passport = require('passport'),
-  auth = require('./config/auth'),
-  cookieParser = require('cookie-parser'),
-  cookieSession = require('cookie-session');
+// ***********************************************************************************************************
+// passport = require('passport'),
+//   auth = require('./config/auth'),
+//   cookieParser = require('cookie-parser'),
+//   cookieSession = require('cookie-session');
 
 
-app.use(cookieSession({
-  name: 'session',
-  keys: ['123']
-}));
-app.use(cookieParser());
+// app.use(cookieSession({
+//   name: 'session',
+//   keys: ['123']
+// }));
+// app.use(cookieParser());
 
-auth(passport);
-app.use(passport.initialize());
-app.get('/', (req, res) => {
-  if (req.session.token) {
-    res.cookie('token', req.session.token);
-    res.json({
-      status: 'session cookie set'
-    });
-  } else {
-    res.cookie('token', '')
-    res.json({
-      status: 'session cookie not set'
-    });
-  }
-});
+// auth(passport);
+// app.use(passport.initialize());
+// app.get('/', (req, res) => {
+//   if (req.session.token) {
+//     res.cookie('token', req.session.token);
+//     res.json({
+//       status: 'session cookie set'
+//     });
+//   } else {
+//     res.cookie('token', '')
+//     res.json({
+//       status: 'session cookie not set'
+//     });
+//   }
+// });
+// ***********************************************************************************************************
 
 // alternate jwt method
 //   // If a user is found
@@ -116,24 +118,25 @@ app.get('/', (req, res) => {
 //     res.status(401).json(info);
 //   }
 // }
+// ***********************************************************************************************************
+// app.get('/auth/google', passport.authenticate('google', {
+//   scope: ['email', 'profile']
+// }));
 
-app.get('/auth/google', passport.authenticate('google', {
-  scope: ['email', 'profile']
-}));
+// app.get('/auth/google/callback',
+//   passport.authenticate('google', { failureRedirect: '/' }),
+//   (req, res) => {
+//     req.session.token = req.user.token;
+//     res.redirect('/');
+//   }
+// );
 
-app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/' }),
-  (req, res) => {
-    req.session.token = req.user.token;
-    res.redirect('/');
-  }
-);
-
-app.get('/logout', (req, res) => {
-  req.logout();
-  req.session = null;
-  res.redirect('/');
-});
+// app.get('/logout', (req, res) => {
+//   req.logout();
+//   req.session = null;
+//   res.redirect('/');
+// });
+// ***********************************************************************************************************
 
 //strategy for authentication won't work without routing
 //as this is not implemented, the routeguard feature will
