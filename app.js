@@ -151,8 +151,9 @@ app
 //do something only if user is authenticated
 //});
 
-//server lisetn
+//server listen
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+// ***********************************************************************************************************
+// app.listen(port, () => {
+//   console.log(`Server running at http://localhost:${port}`);
+// });
